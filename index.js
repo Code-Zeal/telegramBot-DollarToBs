@@ -1,7 +1,6 @@
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const telegramBot = require("node-telegram-bot-api");
-import { Browser } from "puppeteer";
 require("dotenv").config();
 const TELEGRAM_TOKEN_BCV = process.env.TELEGRAM_TOKEN_BCV;
 const ID_MARCE = process.env.ID_MARCE;
@@ -13,7 +12,7 @@ const { executablePath } = require("puppeteer");
 const url = "https://monitordolarvenezuela.com";
 
 const main = async () => {
-  const browser: Browser = await puppeteer.launch({
+  const browser = await puppeteer.launch({
     headless: true,
     executablePath: executablePath(),
   });
