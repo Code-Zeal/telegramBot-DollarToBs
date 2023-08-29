@@ -13,8 +13,16 @@ const url = "https://monitordolarvenezuela.com";
 
 const main = async () => {
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: executablePath(),
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : executablePath(),
   });
   const page = await browser.newPage();
   await page.goto(url);
