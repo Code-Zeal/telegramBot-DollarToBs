@@ -42,9 +42,27 @@ const main = async () => {
     );
     return dolar.textContent.trim();
   });
-  const monitor = await page.evaluate(() => {
+  const paralelovzla3 = await page.evaluate(() => {
     const monitor = document.querySelector(
       "#promedios > div > div:nth-child(2) > div:nth-child(3) > div > p"
+    );
+    return monitor.textContent.trim();
+  });
+  const MonitorDolarWeb = await page.evaluate(() => {
+    const monitor = document.querySelector(
+      "#promedios > div > div:nth-child(2) > div:nth-child(5) > div > p"
+    );
+    return monitor.textContent.trim();
+  });
+  const EnParaleloVzlaVip = await page.evaluate(() => {
+    const monitor = document.querySelector(
+      "#promedios > div > div:nth-child(2) > div:nth-child(6) > div > p"
+    );
+    return monitor.textContent.trim();
+  });
+  const BinanceP2P = await page.evaluate(() => {
+    const monitor = document.querySelector(
+      "#promedios > div > div:nth-child(2) > div:nth-child(7) > div > p"
     );
     return monitor.textContent.trim();
   });
@@ -57,7 +75,11 @@ const main = async () => {
   const message = `Fecha: ${formattedDate}\n
   Cambio del dolar a Bs \n
    🔵BCV: Bs = ${bcv} \n
-   🟡Monitor: ${monitor}`;
+   🟡@EnParaleloVzla3: ${paralelovzla3} \n
+   🔴@MonitorDolarWeb:${MonitorDolarWeb} \n
+   🟡@EnParaleloVzlaVip: ${EnParaleloVzlaVip} \n
+   🔶Binance P2P:${BinanceP2P}
+   `;
 
   chatIds.forEach((chatId) => {
     bot_bcv.sendMessage(chatId, message);
