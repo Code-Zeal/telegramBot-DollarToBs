@@ -73,8 +73,8 @@ const main = async () => {
     timeZone: "America/Caracas",
   });
   const message = `Fecha: ${formattedDate}\n
-  Cambio del dolar a Bs \n
-   🔵BCV: Bs = ${bcv} \n
+  Cambios del dolar a Bs \n
+   🔵BCV:${bcv} \n
    🟡@EnParaleloVzla3: ${paralelovzla3} \n
    🔴@MonitorDolarWeb:${MonitorDolarWeb} \n
    🟡@EnParaleloVzlaVip: ${EnParaleloVzlaVip} \n
