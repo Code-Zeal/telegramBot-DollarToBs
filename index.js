@@ -6,6 +6,16 @@ const TELEGRAM_TOKEN_BCV = process.env.TELEGRAM_TOKEN_BCV;
 const ID_MARCE = process.env.ID_MARCE;
 const ID_JAHN = process.env.ID_JAHN;
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
+const express = require("express");
+const app = express();
+app.get("/", (req, res) => {
+  res.send("Servidor de bot con puppeteer está funcionando correctamente");
+});
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
 puppeteer.use(StealthPlugin());
 
 const { executablePath } = require("puppeteer");
