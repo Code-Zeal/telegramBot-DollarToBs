@@ -5,6 +5,7 @@ require("dotenv").config();
 const TELEGRAM_TOKEN_BCV = process.env.TELEGRAM_TOKEN_BCV;
 const ID_MARCE = process.env.ID_MARCE;
 const ID_JAHN = process.env.ID_JAHN;
+const ID_DANIRIS = process.env.ID_DANIRIS;
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
 const express = require("express");
 const app = express();
@@ -66,7 +67,7 @@ const main = async () => {
     );
     return monitor.textContent.trim();
   });
-  const chatIds = [ID_MARCE, ID_JAHN];
+  const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS];
   const currentDate = new Date();
 
   const formattedDate = currentDate.toLocaleString("es-VE", {
