@@ -75,11 +75,11 @@ const main = async () => {
   });
   const message = `Fecha: ${formattedDate}\n
   Cambios del dolar a Bs \n
-   🔵BCV:${bcv.slice(-5)}Bs \n
-   🟡EnParaleloVzla3: ${paralelovzla3.slice(-5)}Bs \n
-   🔴MonitorDolarWeb: ${MonitorDolarWeb.slice(-5)}Bs \n
-   🟡EnParaleloVzlaVip: ${EnParaleloVzlaVip.slice(-5)}Bs \n
-   🔶Binance P2P: ${BinanceP2P.slice(-5)}Bs
+   🔵BCV:${bcv.slice(-6)}Bs \n
+   🟡EnParaleloVzla3: ${paralelovzla3.slice(-6)}Bs \n
+   🔴MonitorDolarWeb: ${MonitorDolarWeb.slice(-6)}Bs \n
+   🟡EnParaleloVzlaVip: ${EnParaleloVzlaVip.slice(-6)}Bs \n
+   🔶Binance P2P: ${BinanceP2P.slice(-6)}Bs
    `;
 
   chatIds.forEach((chatId) => {
