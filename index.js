@@ -40,34 +40,48 @@ const main = async () => {
   const page = await browser.newPage();
   await page.goto(url);
   const bcv = await page.evaluate(() => {
-    const dolar = document.querySelector(
-      "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
-    );
-    return dolar.textContent.trim();
+    const dolar = document
+      .querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
+      )
+      .textContent.trim()
+      .slice(-6);
+    return dolar;
   });
   const paralelovzla3 = await page.evaluate(() => {
-    const monitor = document.querySelector(
-      "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
-    );
-    return monitor.textContent.trim();
+    const monitor = document
+      .querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
+      )
+      .textContent.trim()
+      .slice(-6);
+    return monitor;
   });
   const MonitorDolarWeb = await page.evaluate(() => {
-    const monitor = document.querySelector(
-      "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
-    );
-    return monitor.textContent.trim();
+    const monitor = document
+      .querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
+      )
+      .textContent.trim()
+      .slice(-6);
+    return monitor;
   });
   const EnParaleloVzlaVip = await page.evaluate(() => {
-    const monitor = document.querySelector(
-      "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
-    );
-    return monitor.textContent.trim();
+    const monitor = document
+      .querySelector(
+        "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
+      )
+      .textContent.trim()
+      .slice(-6);
+    return monitor;
   });
   const BinanceP2P = await page.evaluate(() => {
-    const monitor = document.querySelector(
-      "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
-    );
-    return monitor.textContent.trim();
+    const monitor = document
+      .querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
+      )
+      .textContent.trim();
+    return monitor;
   });
   const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
   const currentDate = new Date();
@@ -77,11 +91,11 @@ const main = async () => {
   });
   const message = `Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
-   🔵BCV:${bcv.slice(-6)}Bs\n
-   🟡ParaleloVzla3:${paralelovzla3.slice(-6)}Bs\n
-   🔴MonitorDolarWeb:${MonitorDolarWeb.slice(-6)}Bs\n
-   🟡ParaleloVzlaVip:${EnParaleloVzlaVip.slice(-6)}Bs\n
-   🔶BinanceP2P:${BinanceP2P.slice(-6)}Bs
+   🔵BCV:${bcv}Bs\n
+   🟡ParaleloVzla3:${paralelovzla3}Bs\n
+   🔴MonitorDolarWeb:${MonitorDolarWeb}Bs\n
+   🟡ParaleloVzlaVip:${EnParaleloVzlaVip}Bs\n
+   🔶BinanceP2P:${BinanceP2P}Bs
    `;
 
   chatIds.forEach((chatId) => {
