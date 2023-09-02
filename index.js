@@ -81,7 +81,7 @@ const main = async () => {
    🟡ParaleloVzla3:${paralelovzla3.slice(-6)}Bs\n
    🔴MonitorDolarWeb:${MonitorDolarWeb.slice(-6)}Bs\n
    🟡ParaleloVzlaVip:${EnParaleloVzlaVip.slice(-6)}Bs\n
-   🔶BinanceP2P:${BinanceP2P.slice(-6)}
+   🔶BinanceP2P:${BinanceP2P.slice(-6)}Bs
    `;
 
   chatIds.forEach((chatId) => {
