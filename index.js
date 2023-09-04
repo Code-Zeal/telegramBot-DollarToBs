@@ -27,7 +27,6 @@ const url = "https://monitordolarvenezuela.com";
 const main = async (first = false) => {
   try {
     const newCurrentDate = new Date();
-
     const dayOfWeek = newCurrentDate.getDay();
     const hour = newCurrentDate.getHours();
     if (dayOfWeek === 6 || (dayOfWeek === 0 && first === false)) {
@@ -37,8 +36,6 @@ const main = async (first = false) => {
       return;
     }
     const browser = await puppeteer.launch({
-      headless: true,
-      timeout: 60000,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -52,52 +49,36 @@ const main = async (first = false) => {
     });
     const page = await browser.newPage();
     await page.goto(url);
-
-    const {
-      bcv,
-      MonitorDolarWeb,
-      paralelovzla3,
-      EnParaleloVzlaVip,
-      BinanceP2P,
-    } = await page.evaluate(() => {
-      const bcv = document
-        .querySelector(
-          "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
-        )
-        .textContent.trim()
-        .slice(-6);
-      const paralelovzla3 = document
-        .querySelector(
-          "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
-        )
-        .textContent.trim()
-        .slice(-6);
-      const MonitorDolarWeb = document
-        .querySelector(
-          "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
-        )
-        .textContent.trim()
-        .slice(-6);
-      const EnParaleloVzlaVip = document
-        .querySelector(
-          "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
-        )
-        .textContent.trim()
-        .slice(-6);
-      const BinanceP2P = document
-        .querySelector(
-          "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
-        )
-        .textContent.trim();
-      return {
-        bcv,
-        MonitorDolarWeb,
-        paralelovzla3,
-        EnParaleloVzlaVip,
-        BinanceP2P,
-      };
+    const bcv = await page.evaluate(() => {
+      const dolar = document.querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
+      );
+      return dolar.textContent.trim();
     });
-
+    const paralelovzla3 = await page.evaluate(() => {
+      const monitor = document.querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
+      );
+      return monitor.textContent.trim();
+    });
+    const MonitorDolarWeb = await page.evaluate(() => {
+      const monitor = document.querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
+      );
+      return monitor.textContent.trim();
+    });
+    const EnParaleloVzlaVip = await page.evaluate(() => {
+      const monitor = document.querySelector(
+        "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
+      );
+      return monitor.textContent.trim();
+    });
+    const BinanceP2P = await page.evaluate(() => {
+      const monitor = document.querySelector(
+        "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
+      );
+      return monitor.textContent.trim();
+    });
     const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
     const currentDate = new Date();
 
@@ -106,11 +87,11 @@ const main = async (first = false) => {
     });
     const message = `Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
-   🔵BCV:${bcv}Bs\n
-   🟡ParaleloVzla3:${paralelovzla3}Bs\n
-   🔴MonitorDolarWeb:${MonitorDolarWeb}Bs\n
-   🟡ParaleloVzlaVip:${EnParaleloVzlaVip}Bs\n
-   🔶BinanceP2P:${BinanceP2P}Bs
+   🔵BCV:${bcv.slice(-6)}Bs\n
+   🟡ParaleloVzla3:${paralelovzla3.slice(-6)}Bs\n
+   🔴MonitorDolarWeb:${MonitorDolarWeb.slice(-6)}Bs\n
+   🟡ParaleloVzlaVip:${EnParaleloVzlaVip.slice(-6)}Bs\n
+   🔶BinanceP2P:${BinanceP2P.slice(-6)}Bs
    `;
 
     chatIds.forEach((chatId) => {
