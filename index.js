@@ -57,7 +57,6 @@ const main = async () => {
       bcv,
       MonitorDolarWeb,
       paralelovzla3,
-      monitor,
       EnParaleloVzlaVip,
       BinanceP2P,
     } = await page.evaluate(() => {
@@ -94,7 +93,6 @@ const main = async () => {
         bcv,
         MonitorDolarWeb,
         paralelovzla3,
-        monitor,
         EnParaleloVzlaVip,
         BinanceP2P,
       };
