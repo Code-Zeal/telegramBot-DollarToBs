@@ -27,11 +27,9 @@ const url = "https://monitordolarvenezuela.com";
 const main = async () => {
   try {
     const newCurrentDate = new Date();
-    const newFormattedDate = newCurrentDate.toLocaleString("es-VE", {
-      timeZone: "America/Caracas",
-    });
-    const dayOfWeek = newFormattedDate.getDay();
-    const hour = newFormattedDate.getHours();
+
+    const dayOfWeek = newCurrentDate.getDay();
+    const hour = newCurrentDate.getHours();
     if (dayOfWeek === 6 || dayOfWeek === 0) {
       return;
     }
