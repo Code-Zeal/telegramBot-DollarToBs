@@ -25,71 +25,93 @@ const { executablePath } = require("puppeteer");
 const url = "https://monitordolarvenezuela.com";
 
 const main = async () => {
-  const browser = await puppeteer.launch({
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--single-process",
-      "--no-zygote",
-    ],
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : executablePath(),
-  });
-  const page = await browser.newPage();
-  await page.goto(url);
-  const bcv = await page.evaluate(() => {
-    const dolar = document
-      .querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
-      )
-      .textContent.trim()
-      .slice(-6);
-    return dolar;
-  });
-  const paralelovzla3 = await page.evaluate(() => {
-    const monitor = document
-      .querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
-      )
-      .textContent.trim()
-      .slice(-6);
-    return monitor;
-  });
-  const MonitorDolarWeb = await page.evaluate(() => {
-    const monitor = document
-      .querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
-      )
-      .textContent.trim()
-      .slice(-6);
-    return monitor;
-  });
-  const EnParaleloVzlaVip = await page.evaluate(() => {
-    const monitor = document
-      .querySelector(
-        "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
-      )
-      .textContent.trim()
-      .slice(-6);
-    return monitor;
-  });
-  const BinanceP2P = await page.evaluate(() => {
-    const monitor = document
-      .querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
-      )
-      .textContent.trim();
-    return monitor;
-  });
-  const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
-  const currentDate = new Date();
+  try {
+    const newCurrentDate = new Date();
+    const newFormattedDate = newCurrentDate.toLocaleString("es-VE", {
+      timeZone: "America/Caracas",
+    });
+    const dayOfWeek = newFormattedDate.getDay();
+    const hour = newFormattedDate.getHours();
+    if (dayOfWeek === 6 || dayOfWeek === 0) {
+      return;
+    }
+    if (hour >= 19 || hour < 6) {
+      return;
+    }
+    const browser = await puppeteer.launch({
+      headless: true,
+      slowMo: 0,
+      timeout: 120000,
+      args: [
+        "--enable-logging",
+        "--v=1",
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : executablePath(),
+    });
+    const page = await browser.newPage();
+    await page.goto(url);
 
-  const formattedDate = currentDate.toLocaleString("es-VE", {
-    timeZone: "America/Caracas",
-  });
-  const message = `Fecha: ${formattedDate}\n
+    const arrayOfElements = await page.evaluate(() => {
+      const bcv = document
+        .querySelector(
+          "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
+        )
+        .textContent.trim()
+        .slice(-6);
+      const paralelovzla3 = document
+        .querySelector(
+          "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
+        )
+        .textContent.trim()
+        .slice(-6);
+      const MonitorDolarWeb = document
+        .querySelector(
+          "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
+        )
+        .textContent.trim()
+        .slice(-6);
+      const EnParaleloVzlaVip = document
+        .querySelector(
+          "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
+        )
+        .textContent.trim()
+        .slice(-6);
+      const BinanceP2P = document
+        .querySelector(
+          "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
+        )
+        .textContent.trim();
+      return {
+        bcv,
+        MonitorDolarWeb,
+        paralelovzla3,
+        monitor,
+        EnParaleloVzlaVip,
+        BinanceP2P,
+      };
+    });
+    const {
+      bcv,
+      MonitorDolarWeb,
+      paralelovzla3,
+      monitor,
+      EnParaleloVzlaVip,
+      BinanceP2P,
+    } = arrayOfElements;
+    const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
+    const currentDate = new Date();
+
+    const formattedDate = currentDate.toLocaleString("es-VE", {
+      timeZone: "America/Caracas",
+    });
+    const message = `Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
    🔵BCV:${bcv}Bs\n
    🟡ParaleloVzla3:${paralelovzla3}Bs\n
@@ -98,16 +120,19 @@ const main = async () => {
    🔶BinanceP2P:${BinanceP2P}Bs
    `;
 
-  chatIds.forEach((chatId) => {
-    bot_bcv.sendMessage(chatId, message);
-  });
+    chatIds.forEach((chatId) => {
+      bot_bcv.sendMessage(chatId, message);
+    });
 
-  await browser.close();
+    await browser.close();
+  } catch (error) {
+    bot_bcv.sendMessage(ID_MARCE, error);
+  }
 };
 main().catch((err) => {
+  bot_bcv.sendMessage(ID_MARCE, err);
   console.error(err);
   process.exit(1);
 });
 
-// Ejecuta la función main cada dos horas (7200000 milisegundos)
 setInterval(main, 7200000);
