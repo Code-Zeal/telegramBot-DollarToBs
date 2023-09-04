@@ -40,11 +40,8 @@ const main = async () => {
     }
     const browser = await puppeteer.launch({
       headless: true,
-      slowMo: 0,
       timeout: 120000,
       args: [
-        "--enable-logging",
-        "--v=1",
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--single-process",
@@ -58,7 +55,14 @@ const main = async () => {
     const page = await browser.newPage();
     await page.goto(url);
 
-    const arrayOfElements = await page.evaluate(() => {
+    const {
+      bcv,
+      MonitorDolarWeb,
+      paralelovzla3,
+      monitor,
+      EnParaleloVzlaVip,
+      BinanceP2P,
+    } = await page.evaluate(() => {
       const bcv = document
         .querySelector(
           "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
@@ -97,14 +101,7 @@ const main = async () => {
         BinanceP2P,
       };
     });
-    const {
-      bcv,
-      MonitorDolarWeb,
-      paralelovzla3,
-      monitor,
-      EnParaleloVzlaVip,
-      BinanceP2P,
-    } = arrayOfElements;
+
     const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
     const currentDate = new Date();
 
@@ -126,11 +123,11 @@ const main = async () => {
 
     await browser.close();
   } catch (error) {
-    bot_bcv.sendMessage(ID_MARCE, error);
+    bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
   }
 };
 main().catch((err) => {
-  bot_bcv.sendMessage(ID_MARCE, err);
+  bot_bcv.sendMessage(ID_MARCE, `Error en el primer mensaje en main: ${err}`);
   console.error(err);
   process.exit(1);
 });
