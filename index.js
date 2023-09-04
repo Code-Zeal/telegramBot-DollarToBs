@@ -24,21 +24,21 @@ puppeteer.use(StealthPlugin());
 const { executablePath } = require("puppeteer");
 const url = "https://monitordolarvenezuela.com";
 
-const main = async () => {
+const main = async (first = false) => {
   try {
     const newCurrentDate = new Date();
 
     const dayOfWeek = newCurrentDate.getDay();
     const hour = newCurrentDate.getHours();
-    if (dayOfWeek === 6 || dayOfWeek === 0) {
+    if (dayOfWeek === 6 || (dayOfWeek === 0 && first === false)) {
       return;
     }
-    if (hour >= 19 || hour < 6) {
+    if (hour >= 20 || (hour < 6 && first === false)) {
       return;
     }
     const browser = await puppeteer.launch({
       headless: true,
-      timeout: 120000,
+      timeout: 60000,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -122,7 +122,7 @@ const main = async () => {
     bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
   }
 };
-main().catch((err) => {
+main(true).catch((err) => {
   bot_bcv.sendMessage(ID_MARCE, `Error en el primer mensaje en main: ${err}`);
   console.error(err);
   process.exit(1);
