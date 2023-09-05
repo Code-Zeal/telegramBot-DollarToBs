@@ -39,7 +39,9 @@ console.log("día de la semana de descanso")
 console.log("hora de descanso")
       return;
     }
-    const browser = await puppeteer.launch({
+    const browser = await puppeteer.launch({headless: true,
+      slowMo: 0,
+      timeout: 120000,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -52,16 +54,16 @@ console.log("hora de descanso")
           : executablePath(),
     });
     const page = await browser.newPage();
-      await page.setRequestInterception(true);
+      //await page.setRequestInterception(true);
 
   // aborta las solicitudes de imágenes
-  page.on('request', (req) => {
-    if (req.resourceType() === 'image') {
-      req.abort();
-    } else {
-      req.continue();
-    }
-  });
+  //page.on('request', (req) => {
+   // if (req.resourceType() === 'image') {
+      //req.abort();
+    //} else {
+     // req.continue();
+  // }
+ // });
     await page.goto(url, { waitUntil: 'networkidle0' });
     const bcv = await page.evaluate(() => {
       const dolar = document.querySelector(
