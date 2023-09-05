@@ -24,15 +24,19 @@ puppeteer.use(StealthPlugin());
 const { executablePath } = require("puppeteer");
 const url = "https://monitordolarvenezuela.com";
 
-const main = async (first = false) => {
+const main = async () => {
+  console.log("ejecutando main")
   try {
     const newCurrentDate = new Date();
+    console.log(newCurrentDate)
     const dayOfWeek = newCurrentDate.getDay();
     const hour = newCurrentDate.getHours();
-    if (dayOfWeek === 6 || (dayOfWeek === 0 && first === false)) {
+    if (dayOfWeek === 6 || (dayOfWeek === 0)) {
+console.log("día de la semana de descanso")
       return;
     }
-    if (hour >= 20 || (hour < 6 && first === false)) {
+    if (hour >= 20 || (hour < 6)) {
+console.log("hora de descanso")
       return;
     }
     const browser = await puppeteer.launch({
@@ -48,7 +52,17 @@ const main = async (first = false) => {
           : executablePath(),
     });
     const page = await browser.newPage();
-    await page.goto(url);
+      await page.setRequestInterception(true);
+
+  // aborta las solicitudes de imágenes
+  page.on('request', (req) => {
+    if (req.resourceType() === 'image') {
+      req.abort();
+    } else {
+      req.continue();
+    }
+  });
+    await page.goto(url, { waitUntil: 'networkidle0' });
     const bcv = await page.evaluate(() => {
       const dolar = document.querySelector(
         "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
@@ -103,7 +117,7 @@ const main = async (first = false) => {
     bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
   }
 };
-main(true).catch((err) => {
+main().catch((err) => {
   bot_bcv.sendMessage(ID_MARCE, `Error en el primer mensaje en main: ${err}`);
   console.error(err);
   process.exit(1);
