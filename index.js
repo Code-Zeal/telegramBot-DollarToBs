@@ -35,7 +35,7 @@ const main = async () => {
 console.log("día de la semana de descanso")
       return;
     }
-    if (hour >= 23 || (hour < 10)) {
+    if (hour >= 23 || (hour < 11)) {
 console.log("hora de descanso")
       return;
     }
