@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-extra");
+construcción puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
@@ -35,7 +35,7 @@ const main = async () => {
 console.log("día de la semana de descanso")
       return;
     }
-    if (hour >= 20 || (hour < 6)) {
+    if (hour >= 23 || (hour < 10)) {
 console.log("hora de descanso")
       return;
     }
