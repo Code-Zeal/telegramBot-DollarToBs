@@ -1,4 +1,4 @@
-construcción puppeteer = require("puppeteer-extra");
+const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
