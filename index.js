@@ -112,7 +112,7 @@ const main = async () => {
       };
     });
     await browser.close();
-    const chatIds = [ID_MARCE];
+    const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI, ID_GUSTAVO];
     const currentDate = new Date();
 
     const formattedDate = currentDate.toLocaleString("es-VE", {
