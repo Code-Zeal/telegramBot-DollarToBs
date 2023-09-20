@@ -7,14 +7,14 @@ const ID_MARCE = process.env.ID_MARCE;
 const ID_JAHN = process.env.ID_JAHN;
 const ID_DANIRIS = process.env.ID_DANIRIS;
 const ID_JHONI = process.env.ID_JHONI;
-
+const ID_GUSTAVO = process.env.ID_GUSTAVO;
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
 const express = require("express");
 const app = express();
 app.get("/", (req, res) => {
   res.send("Servidor de bot con puppeteer está funcionando correctamente");
 });
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4230;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
@@ -22,24 +22,39 @@ app.listen(port, () => {
 puppeteer.use(StealthPlugin());
 
 const { executablePath } = require("puppeteer");
-const url = "https://monitordolarvenezuela.com";
+const url = "https://monitordolarvenezuela.com/monitor-dolar-hoy";
 
 const main = async () => {
-  console.log("ejecutando main")
+  console.log("ejecutando main");
   try {
-    const newCurrentDate = new Date();
-    console.log(newCurrentDate)
-    const dayOfWeek = newCurrentDate.getDay();
-    const hour = newCurrentDate.getHours();
-    if (dayOfWeek === 6 || (dayOfWeek === 0)) {
-console.log("día de la semana de descanso")
+    const event = new Date();
+
+    // Configurar las opciones para toLocaleString
+    const options = {
+      timeZone: "America/Caracas",
+      hour12: false,
+    };
+
+    // Convertir la fecha y hora actuales a la zona horaria de Venezuela
+    const venezuelaDate = new Date(new Date().toLocaleString("en-US", options));
+
+    // Obtener el día de la semana (0 es Domingo, 1 es Lunes, ..., 6 es Sábado)
+    const dayOfWeek = venezuelaDate.getDay();
+    console.log(dayOfWeek);
+
+    // Obtener la hora del día (formato de 24 horas)
+    const hour = venezuelaDate.getHours();
+    console.log(hour);
+    if (dayOfWeek === 6 || dayOfWeek === 0) {
+      console.log("día de la semana de descanso");
       return;
     }
-    if (hour >= 23 || (hour < 11)) {
-console.log("hora de descanso")
+    if (hour > 18 || hour < 7) {
+      console.log("hora de descanso");
       return;
     }
-    const browser = await puppeteer.launch({headless: true,
+    const browser = await puppeteer.launch({
+      headless: "new",
       slowMo: 0,
       timeout: 120000,
       args: [
@@ -48,73 +63,92 @@ console.log("hora de descanso")
         "--single-process",
         "--no-zygote",
       ],
+
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
           : executablePath(),
     });
     const page = await browser.newPage();
-      //await page.setRequestInterception(true);
-
-  // aborta las solicitudes de imágenes
-  //page.on('request', (req) => {
-   // if (req.resourceType() === 'image') {
-      //req.abort();
-    //} else {
-     // req.continue();
-  // }
- // });
-    await page.goto(url, { waitUntil: 'networkidle0' });
-    const bcv = await page.evaluate(() => {
-      const dolar = document.querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(2) > div > p"
-      );
-      return dolar.textContent.trim();
+    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 120 });
+    const {
+      BCV,
+      EnParaleloVzla3,
+      BinanceP2P,
+      MonitorDolarWeb,
+      EnParaleloVzlaVIP,
+    } = await page.evaluate(() => {
+      const BCV = document
+        .querySelector(
+          "#root > div > div.grid.grid-cols-12 > div.lg\\:col-span-8.sm\\:col-span-12.col-span-12.mx-1.overflow-x-auto.px-5 > table > tbody > tr:nth-child(1) > td:nth-child(2)"
+        )
+        .textContent.trim();
+      const EnParaleloVzla3 = document
+        .querySelector(
+          "#root > div > div.grid.grid-cols-12 > div.lg\\:col-span-8.sm\\:col-span-12.col-span-12.mx-1.overflow-x-auto.px-5 > table > tbody > tr:nth-child(2) > td:nth-child(2)"
+        )
+        .textContent.trim();
+      const BinanceP2P = document
+        .querySelector(
+          "#root > div > div.grid.grid-cols-12 > div.lg\\:col-span-8.sm\\:col-span-12.col-span-12.mx-1.overflow-x-auto.px-5 > table > tbody > tr:nth-child(3) > td:nth-child(2)"
+        )
+        .textContent.trim();
+      const MonitorDolarWeb = document
+        .querySelector(
+          "#root > div > div.grid.grid-cols-12 > div.lg\\:col-span-8.sm\\:col-span-12.col-span-12.mx-1.overflow-x-auto.px-5 > table > tbody > tr:nth-child(4) > td:nth-child(2)"
+        )
+        .textContent.trim();
+      const EnParaleloVzlaVIP = document
+        .querySelector(
+          "#root > div > div.grid.grid-cols-12 > div.lg\\:col-span-8.sm\\:col-span-12.col-span-12.mx-1.overflow-x-auto.px-5 > table > tbody > tr:nth-child(5) > td:nth-child(2)"
+        )
+        .textContent.trim();
+      return {
+        BCV,
+        EnParaleloVzla3,
+        BinanceP2P,
+        MonitorDolarWeb,
+        EnParaleloVzlaVIP,
+      };
     });
-    const paralelovzla3 = await page.evaluate(() => {
-      const monitor = document.querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(3) > div > p"
-      );
-      return monitor.textContent.trim();
-    });
-    const MonitorDolarWeb = await page.evaluate(() => {
-      const monitor = document.querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(5) > div > p"
-      );
-      return monitor.textContent.trim();
-    });
-    const EnParaleloVzlaVip = await page.evaluate(() => {
-      const monitor = document.querySelector(
-        "#promedios > div:nth-child(4) > div:nth-child(2) > div > p"
-      );
-      return monitor.textContent.trim();
-    });
-    const BinanceP2P = await page.evaluate(() => {
-      const monitor = document.querySelector(
-        "#promedios > div:nth-child(2) > div:nth-child(4) > div > p"
-      );
-      return monitor.textContent.trim();
-    });
-    const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI];
+    await browser.close();
+    const chatIds = [ID_MARCE];
     const currentDate = new Date();
 
     const formattedDate = currentDate.toLocaleString("es-VE", {
       timeZone: "America/Caracas",
     });
-    const message = `Fecha: ${formattedDate}\n
+    const message = ` ${
+      hour + 2 > 22 && dayOfWeek + 1 !== 6
+        ? "🔴🔴🔴CIERRE DEL DÍA🔴🔴🔴 \n"
+        : ""
+    }
+    ${
+      hour + 2 > 18 && dayOfWeek + 1 === 6
+        ? "🔴🔴CIERRE DE LA SEMANA🔴🔴 \n"
+        : ""
+    }
+     ${
+       hour - 2 < 7 && dayOfWeek - 1 !== 0
+         ? "🟢🟢🟢INICIO DEL DÍA🟢🟢🟢 \n"
+         : ""
+     }
+     ${
+       hour - 2 < 7 && dayOfWeek - 1 === 0
+         ? "🟢🟢🟢INICIO DE LA SEMANA🟢🟢🟢 \n"
+         : ""
+     }Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
-   🔵BCV:${bcv.slice(-6)}Bs\n
-   🟡ParaleloVzla3:${paralelovzla3.slice(-6)}Bs\n
-   🔴MonitorDolarWeb:${MonitorDolarWeb.slice(-6)}Bs\n
-   🟡ParaleloVzlaVip:${EnParaleloVzlaVip.slice(-6)}Bs\n
-   🔶BinanceP2P:${BinanceP2P.slice(-6)}Bs
+   🔵BCV:${BCV}\n
+   🟡ParaleloVzla3:${EnParaleloVzla3}\n
+   🔴MonitorDolarWeb:${MonitorDolarWeb}\n
+   🟡ParaleloVzlaVip:${EnParaleloVzlaVIP}\n
+   🔶BinanceP2P:${BinanceP2P}
    `;
 
     chatIds.forEach((chatId) => {
       bot_bcv.sendMessage(chatId, message);
     });
-
-    await browser.close();
   } catch (error) {
     bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
   }
