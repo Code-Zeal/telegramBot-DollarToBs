@@ -49,7 +49,7 @@ const main = async () => {
       console.log("día de la semana de descanso");
       return;
     }
-    if (hour > 18 || hour < 7) {
+    if (hour > 17 || hour < 7) {
       console.log("hora de descanso");
       return;
     }
@@ -119,12 +119,12 @@ const main = async () => {
       timeZone: "America/Caracas",
     });
     const message = ` ${
-      hour + 2 > 22 && dayOfWeek + 1 !== 6
+      hour + 2 > 17 && dayOfWeek + 1 !== 6
         ? "🔴🔴🔴CIERRE DEL DÍA🔴🔴🔴 \n"
         : ""
     }
     ${
-      hour + 2 > 18 && dayOfWeek + 1 === 6
+      hour + 2 > 17 && dayOfWeek + 1 === 6
         ? "🔴🔴CIERRE DE LA SEMANA🔴🔴 \n"
         : ""
     }
