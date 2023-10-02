@@ -8,6 +8,7 @@ const ID_JAHN = process.env.ID_JAHN;
 const ID_DANIRIS = process.env.ID_DANIRIS;
 const ID_JHONI = process.env.ID_JHONI;
 const ID_GUSTAVO = process.env.ID_GUSTAVO;
+const ID_YEINY = process.env.ID_YEINY;
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
 const express = require("express");
 const app = express();
@@ -112,7 +113,7 @@ const main = async () => {
       };
     });
     await browser.close();
-    const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI, ID_GUSTAVO];
+    const chatIds = [ID_MARCE, ID_JAHN, ID_DANIRIS, ID_JHONI, ID_GUSTAVO,ID_YEINY];
     const currentDate = new Date();
 
     const formattedDate = currentDate.toLocaleString("es-VE", {
