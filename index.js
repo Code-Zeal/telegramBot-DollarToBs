@@ -152,6 +152,7 @@ const main = async () => {
     });
   } catch (error) {
     bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
+  main()
   }
 };
 main().catch((err) => {
