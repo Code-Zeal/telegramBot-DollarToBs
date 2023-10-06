@@ -71,7 +71,8 @@ const main = async () => {
           : executablePath(),
     });
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 120 });
+    await page.setDefaultNavigationTimeout(0); 
+    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 0 });
     const {
       BCV,
       EnParaleloVzla3,
