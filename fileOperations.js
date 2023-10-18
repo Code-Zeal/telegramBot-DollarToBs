@@ -73,11 +73,29 @@ const fileOperations = (valorActualDolar) => {
   ${status}
   Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
-   🔵BCV:${BCV} ${mensajesCambio["BCV"]}\n
-   🟡ParaleloVzla3:${EnParaleloVzla3} ${mensajesCambio["EnParaleloVzla3"]}\n
-   🔴MonitorDolarWeb:${MonitorDolarWeb} ${mensajesCambio["MonitorDolarWeb"]}\n
-   🟡ParaleloVzlaVip:${EnParaleloVzlaVIP} ${mensajesCambio["EnParaleloVzlaVIP"]}\n
-   🔶BinanceP2P:${BinanceP2P} ${mensajesCambio["BinanceP2P"]}
+   🔵BCV:${BCV} ${
+      mensajesCambio["BCV"] === undefined ? "" : mensajesCambio["BCV"]
+    }\n
+   🟡ParaleloVzla3:${EnParaleloVzla3} ${
+      mensajesCambio["EnParaleloVzla3"] === undefined
+        ? ""
+        : mensajesCambio["EnParaleloVzla3"]
+    }\n
+   🔴MonitorDolarWeb:${MonitorDolarWeb} ${
+      mensajesCambio["MonitorDolarWeb"] === undefined
+        ? ""
+        : mensajesCambio["MonitorDolarWeb"]
+    }\n
+   🟡ParaleloVzlaVip:${EnParaleloVzlaVIP} ${
+      mensajesCambio["EnParaleloVzlaVIP"] === undefined
+        ? ""
+        : mensajesCambio["EnParaleloVzlaVIP"]
+    }\n
+   🔶BinanceP2P:${BinanceP2P} ${
+      mensajesCambio["BinanceP2P"] === undefined
+        ? ""
+        : mensajesCambio["BinanceP2P"]
+    }
    `;
     return message;
   } catch (error) {
