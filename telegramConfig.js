@@ -22,7 +22,7 @@ const sendMessage = async (message) => {
       bot_bcv.sendMessage(chatId, message);
     });
   } catch (error) {
-    bot_bcv.sendMessage(ID_MARCE, `Error en main: ${error}`);
+    bot_bcv.sendMessage(ID_MARCE, error);
   }
 };
 module.exports = {

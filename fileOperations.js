@@ -1,7 +1,10 @@
 const fs = require("fs");
-const { hour, dayOfWeek } = require("./hourAndDate");
+const { getDayOfWeek, getHour } = require("./hourAndDate");
+
 const fileOperations = (valorActualDolar) => {
   try {
+    const dayOfWeek = getDayOfWeek();
+    const hour = getHour();
     const leerArchivo = (ruta) => {
       try {
         const jsonString = fs.readFileSync(ruta);
@@ -73,25 +76,25 @@ const fileOperations = (valorActualDolar) => {
   ${status}
   Fecha: ${formattedDate}\n
   Cambios del dolar a Bs\n
-   🔵BCV:${BCV} ${
+   🔵BCV:${valorActualDolar.BCV} ${
       mensajesCambio["BCV"] === undefined ? "" : mensajesCambio["BCV"]
     }\n
-   🟡ParaleloVzla3:${EnParaleloVzla3} ${
+   🟡ParaleloVzla3:${valorActualDolar.EnParaleloVzla3} ${
       mensajesCambio["EnParaleloVzla3"] === undefined
         ? ""
         : mensajesCambio["EnParaleloVzla3"]
     }\n
-   🔴MonitorDolarWeb:${MonitorDolarWeb} ${
+   🔴MonitorDolarWeb:${valorActualDolar.MonitorDolarWeb} ${
       mensajesCambio["MonitorDolarWeb"] === undefined
         ? ""
         : mensajesCambio["MonitorDolarWeb"]
     }\n
-   🟡ParaleloVzlaVip:${EnParaleloVzlaVIP} ${
+   🟡ParaleloVzlaVip:${valorActualDolar.EnParaleloVzlaVIP} ${
       mensajesCambio["EnParaleloVzlaVIP"] === undefined
         ? ""
         : mensajesCambio["EnParaleloVzlaVIP"]
     }\n
-   🔶BinanceP2P:${BinanceP2P} ${
+   🔶BinanceP2P:${valorActualDolar.BinanceP2P} ${
       mensajesCambio["BinanceP2P"] === undefined
         ? ""
         : mensajesCambio["BinanceP2P"]
