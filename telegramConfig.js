@@ -8,6 +8,13 @@ const ID_YEINY = process.env.ID_YEINY;
 const TELEGRAM_TOKEN_BCV = process.env.TELEGRAM_TOKEN_BCV;
 const telegramBot = require("node-telegram-bot-api");
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
+const sendError = async (err) => {
+  try {
+    bot_bcv.sendMessage(ID_MARCE, err);
+  } catch (err) {
+    bot_bcv.sendMessage(ID_MARCE, err);
+  }
+};
 const sendMessage = async (message) => {
   try {
     const chatIds = [
@@ -22,9 +29,10 @@ const sendMessage = async (message) => {
       bot_bcv.sendMessage(chatId, message);
     });
   } catch (error) {
-    bot_bcv.sendMessage(ID_MARCE, error);
+    sendError(error);
   }
 };
 module.exports = {
   sendMessage,
+  sendError,
 };

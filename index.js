@@ -2,7 +2,7 @@ const cron = require("node-cron");
 const { getPuppeteerValues } = require("./puppeteerConfig");
 const { fileOperations } = require("./fileOperations");
 const { getDayOfWeek, getHour } = require("./hourAndDate");
-const { sendMessage } = require("./telegramConfig");
+const { sendMessage, sendError } = require("./telegramConfig");
 
 const main = async () => {
   try {
@@ -19,16 +19,17 @@ const main = async () => {
       return;
     }
     const valorActualDolar = await getPuppeteerValues();
+
     const message = fileOperations(valorActualDolar);
     sendMessage(message);
   } catch (error) {
+    sendError(error);
     console.error(error);
   }
 };
 main().catch((err) => {
+  sendError(err);
   console.error(err);
-  main();
-  process.exit(1);
 });
 cron.schedule("*/120 * * * *", () => {
   main();
