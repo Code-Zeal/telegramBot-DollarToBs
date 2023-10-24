@@ -25,12 +25,14 @@ const main = async () => {
   } catch (error) {
     sendError(error);
     console.error(error);
+    main();
   }
 };
-main().catch((err) => {
-  sendError(err);
-  console.error(err);
-});
+
 cron.schedule("*/120 * * * *", () => {
-  main();
+  main().catch((err) => {
+    sendError(err);
+    console.error(err);
+    main();
+  });
 });

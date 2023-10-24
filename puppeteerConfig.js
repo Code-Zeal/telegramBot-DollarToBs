@@ -24,7 +24,7 @@ const getPuppeteerValues = async () => {
           : executablePath(),
     });
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 120 });
+    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 240 });
     const {
       BCV,
       EnParaleloVzla3,
