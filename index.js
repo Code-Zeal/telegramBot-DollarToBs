@@ -1,4 +1,3 @@
-const cron = require("node-cron");
 const { getPuppeteerValues } = require("./puppeteerConfig");
 const { fileOperations } = require("./fileOperations");
 const { getDayOfWeek, getHour } = require("./hourAndDate");
@@ -23,16 +22,15 @@ const main = async () => {
     const message = fileOperations(valorActualDolar);
     sendMessage(message);
   } catch (error) {
-    sendError(error);
+    sendError("error en main()");
     console.error(error);
     main();
   }
 };
 
-cron.schedule("*/120 * * * *", () => {
-  main().catch((err) => {
-    sendError(err);
-    console.error(err);
-    main();
-  });
+main().catch((err) => {
+  sendError("error en main()");
+  console.error(err);
+  main();
 });
+setInterval(main, 3600000);

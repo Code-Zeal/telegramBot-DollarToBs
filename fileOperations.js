@@ -10,7 +10,7 @@ const fileOperations = (valorActualDolar) => {
         const jsonString = fs.readFileSync(ruta);
         return JSON.parse(jsonString);
       } catch (error) {
-        sendError(error);
+        sendError("error en leerArchivo()");
         console.log("Error al leer el archivo:", error);
         return {};
       }
@@ -20,7 +20,7 @@ const fileOperations = (valorActualDolar) => {
       try {
         fs.writeFileSync(ruta, JSON.stringify(contenido));
       } catch (error) {
-        sendError(error);
+        sendError("error en escribirArchivo()");
         console.log("Error al escribir en el archivo:", error);
       }
     };
@@ -104,7 +104,7 @@ const fileOperations = (valorActualDolar) => {
    `;
     return message;
   } catch (error) {
-    sendError(error);
+    sendError("error en fileOperations()");
     console.log(error);
   }
 };

@@ -10,7 +10,7 @@ const getPuppeteerValues = async () => {
     const browser = await puppeteer.launch({
       headless: "new",
       slowMo: 0,
-      timeout: 240000,
+      timeout: 360000,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -79,7 +79,7 @@ const getPuppeteerValues = async () => {
       EnParaleloVzlaVIP,
     };
   } catch (error) {
-    sendError(error);
+    sendError("error en getPuppeteerValues()");
     console.log(error);
   }
 };
