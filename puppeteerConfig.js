@@ -10,7 +10,7 @@ const getPuppeteerValues = async () => {
     const browser = await puppeteer.launch({
       headless: "new",
       slowMo: 0,
-      timeout: 360000,
+      timeout: 24000000,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -24,7 +24,7 @@ const getPuppeteerValues = async () => {
           : executablePath(),
     });
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 240 });
+    await page.goto(url, { waitUntil: "networkidle0", setTimeout: 24000000 });
     const {
       BCV,
       EnParaleloVzla3,
