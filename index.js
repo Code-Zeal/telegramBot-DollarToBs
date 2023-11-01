@@ -24,13 +24,10 @@ const main = async () => {
   } catch (error) {
     sendError("error en main()");
     console.error(error);
-    main();
+    setTimeout(main, 1000);
   }
 };
 
-main().catch((err) => {
-  sendError("error en main()");
-  console.error(err);
-  main();
-});
+main();
+
 setInterval(main, 3600000);
