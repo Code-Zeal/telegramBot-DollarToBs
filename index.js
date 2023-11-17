@@ -24,7 +24,6 @@ const main = async () => {
   } catch (error) {
     sendError("error en main()");
     console.error(error);
-    setTimeout(main, 1000);
   }
 };
 
