@@ -104,6 +104,4 @@ const escribirValorDolar = async (valores) => {
 module.exports = {
   leerValorDolar,
   escribirValorDolar,
-  insertarValoresDolar,
-  crearTablaValorDolar,
 };
