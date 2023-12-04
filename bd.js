@@ -19,7 +19,7 @@ const pool = new Pool({
 const leerValorDolar = async () => {
   try {
     const res = await pool.query(
-      "SELECT bcv, en_paralelo_vzla3, binance_p2p, monitor_dolar_web, en_paralelo_vzla_vip FROM tabla_dolar;"
+      "SELECT bcv, en_paralelo_vzla3, binance_p2p, monitor_dolar_web, en_paralelo_vzla_vip FROM tabla_dolar WHERE id = 1;"
     );
     return res.rows[0];
   } catch (error) {
