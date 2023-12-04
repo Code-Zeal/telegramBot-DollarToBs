@@ -21,14 +21,7 @@ const apiRouter = require("./api");
 app.use("/api", apiRouter);
 const sendMessage = async (message) => {
   try {
-    const chatIds = [
-      ID_MARCE,
-      ID_JAHN,
-      ID_DANIRIS,
-      ID_GUSTAVO,
-      ID_JHONI,
-      ID_YEINY,
-    ];
+    const chatIds = [ID_MARCE];
     chatIds.forEach((chatId) => {
       bot_bcv.sendMessage(chatId, message);
     });
