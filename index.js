@@ -14,7 +14,11 @@ const ID_YEINY = process.env.ID_YEINY;
 const TELEGRAM_TOKEN_BCV = process.env.TELEGRAM_TOKEN_BCV;
 const telegramBot = require("node-telegram-bot-api");
 const bot_bcv = new telegramBot(TELEGRAM_TOKEN_BCV, { polling: true });
-
+const port = process.env.PORT || 8080;
+const express = require("express");
+const app = express();
+const apiRouter = require("./api");
+app.use("/api", apiRouter);
 const sendMessage = async (message) => {
   try {
     const chatIds = [
@@ -179,7 +183,9 @@ const main = async () => {
     main();
   }
 };
-
+app.listen(port, () => {
+  console.log(`Servidor iniciado en el puerto ${port}`);
+});
 main();
 
 setInterval(main, 3600000);
